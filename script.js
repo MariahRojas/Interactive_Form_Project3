@@ -1,42 +1,22 @@
-//Use jQuery to select the 'Name' input element and place focus on it.
-const $name = $("#name").focus();
-// In your JavaScript file, target the ‘Other’ input field, and hide it initially, so that it will
-// display if JavaScript is disabled, but be hidden initially with JS.
-const $other = $("#other-title");
+const $name = $("#name").focus(); // cursor defaults to the Name section. 
+const $other = $("#other-title"); // selects the other-title input and assigns to a variable. 
 
-$other.hide();
+$other.hide(); // hides the other input field.
 
-$('#title').on('change', function () { 
-    if (this.value === 'other') { 
-        $other.show(); 
+$('#title').on('change', function () {  // this event listener selects the title dropdown and listens for changes
+    if (this.value === 'other') {       // if this value equals the other option.
+        $other.show();                  // then the Your Job Role will show.
     } else {
-        $other.hide(); 
+        $other.hide();                  // when other isnt clicked it will hide. 
     }
 });
     
-//goal for the t-shirt section is to filter the available "Color" options by the selected theme in
-//the "Design" field.
-//Doing this ensures that the user cannot select an invalid combination of
-//values for the "Design" and "Color" fields.
-// When the form is initially loaded, we need to update the "Design" and "Color" fields so that it's
-// clear to the user that they need to select a theme before selecting a color. Use jQuery to:
 
-// ● Hide the “Select Theme” `option` element in the “Design” menu.
+$("#design option:nth-child(1)").hide(); // This hides the "Select Theme" `option` element in the "Design Menu"
 
-$("#design option:nth-child(1)").hide();
+$("#color option:nth-child(1)").before('<option selected value="none">Please select a T-shirt theme</option>'); // this selects the first child from the "Design Menu" and places my new input before it. 
 
-// ● Update the “Color” field to read “Please select a T-shirt theme”.
-
-$("#color option:nth-child(1)").before('<option selected value="none">Please select a T-shirt theme</option>'); //its bothering me i need more research 
-
-// ● Hide the colors in the “Color” drop down menu.
-$('#color > option:nth-child(2)').hide();
-$('#color > option:nth-child(3)').hide();
-$('#color > option:nth-child(4)').hide();
-$('#color > option:nth-child(5)').hide();
-$('#color > option:nth-child(6)').hide();
-$('#color > option:nth-child(7)').hide();
-
+$('#color option[value != "none"]').hide(); // hides the colors in the “Color” drop down menu. If the value for the option doesnt equal "none" then it will be hidden. 
 
 
 /* Then, when one of the two themes is selected, only the appropriate colors should show in the
@@ -76,91 +56,49 @@ the first available color.
     }
     });
 
-//     ● create an element to display the total activity cost,
 
-//     Create a DOM element, store it in a global variable and append it to the `.activity` section. 
+    const $myDiv = $("<div></div>");        // this div element is created to display the total activity cost
+    $(".activities").append($myDiv);        // the new div element is appended to the activities section. 
+    let $totalCost = 0;                     // the total cost will intially begin at 0.
 
+    $(".activities").change((event) => {       // this event listener will listen for any changes in the activities section 
+        const whenClicked = $(event.target);   // the target event property will return the element that triggers whenClicked variable.
 
-// Create a global variable to store total activity cost — initially set to 0 — don't use const since you want to update this as needed.
-    
-
-//Creating an element to display the total activity cost
-
-   //Creating an element to display the total activity cost
-    //var $myDiv = document.createElement("div");  // Create with DOM https://www.w3schools.com/jquery/jquery_dom_add.asp
-    var $myDiv = $("<div></div>");
-    $(".activities").append($myDiv);      // Append the new element
-    var $totalCost = 0;
-
-    $(".activities").change((event) => {
-        const whenClicked = $(event.target);
-        if (whenClicked.attr("type") == "checkbox")
+ 
+        if (whenClicked.attr("type") === "checkbox") // whenClicked with the attribute "type" is equal to the "checkbox"
         {
-            const checkboxText = whenClicked.parent().text(); //parent is the label and the text is whats shown next to the checkbox 
-            const $moneySign = checkboxText.indexOf("$");
-            const dollarPlus = parseInt(checkboxText.slice($moneySign + 1)); //this makes the 
+            const checkboxText = whenClicked.parent().text();                       // parent is the label and the text is whats shown next to the checkbox 
+            const $moneySignIndex = checkboxText.indexOf("$");                      // the index of "$" is chained to the label text
+            const dollarPlus = parseInt(checkboxText.slice($moneySignIndex + 1));   // this makes the cost an actual number using parseInt
+            //console.log(dollarPlus);
 
-
-            //let isChecked = false;
 
             if (whenClicked.is(':checked')) {
-                //do something when checked 
-                //$totalCost = $totalCost + dollarPlus;
-                $totalCost += dollarPlus;
-                //isChecked = true;
+                $totalCost += dollarPlus; // $totalCost = $totalCost + dollarPlus;
             } else {
-                $totalCost -= dollarPlus; // if += then numbers will keep adding up even when unchecked.
+                $totalCost -= dollarPlus; // if += then numbers will keep adding up even when unchecked, so -= will subtract when unchecked. 
             }
 
-            $myDiv.text("Total: $" + $totalCost);
-            
-            if (whenClicked.attr("name") !== "all")
-            {
-                const dayTimeSubstr = getTimestampStr(whenClicked);
-                const allCheckboxes = $(".activities input");
-
-                for (let i = 0; i < allCheckboxes.length; i+=1)
-                {
-                    let $currentBox = allCheckboxes.eq(i);
-                    if ($currentBox.attr("name") != "all" && $currentBox.attr("name") != whenClicked.attr("name") && isTimestampConflicting(dayTimeSubstr, getTimestampStr($currentBox)))
-                    {
-                        $currentBox.attr("disabled", isChecked);
-                    }
-                }
-            }
+            $myDiv.text("Total: $" + $totalCost); // the div will show the Total: $ and whatever $totalCost accumulates
         }
+
+        if (whenClicked.attr("type") === "checkbox")
+        {
+            const checkboxText = whenClicked.parent().text();
+            const $emDashIndex = checkboxText.indexOf("—");
+            const $commaIndex =  checkboxText.indexOf(",");
+            const dayAndTimeText = checkboxText.slice($emDashIndex, $commaIndex); 
+            //console.log(dayAndTimeText);
+            let allCheckboxInputs = $('.activities input');
+            //console.log(allCheckboxInputs);
+            let oneCheckBoxInput = allCheckboxInputs.eq(1);
+
+               allCheckboxInputs.each(function(index, dayAndTimeText){
+                if ( dayAndTimeText == dayAndTimeText && dayAndTimeText != dayAndTimeText ){ 
+                    allCheckboxInputs.attr("checked", "disabled", true);
+                }else{
+                    allCheckboxInputs.removeAttr("checked", "disabled", false);             
+                }
+              });  
+        }         
     });
-
-//});
-
-const getTimestampStr = (chkBox) => {
-    const chkBoxStr = chkBox.parent().text();
-    const emDashLoc = chkBoxStr.indexOf("—");
-    const commaLoc = chkBoxStr.indexOf(",");
-    const dayTimeSubstr = chkBoxStr.slice(emDashLoc + 2, commaLoc);
-
-    return dayTimeSubstr;
-}
-
-const DetermineTwentyFourHour = (curHour, hourStr) => {
-    if (hourStr == "12am")
-    {
-        return 0;
-    }
-    else if (hourStr == "12pm")
-    {
-        return 12;
-    }
-    else if (hourStr.indexOf("pm")!= -1) 
-    {
-        return curHour + 12;
-    }
-    else
-    {
-        return curHour;
-    }
-}
-
-/* const isTimestampConflicting = (leftTimestamp, rightTimestamp) => {
-    const leftSpaceLoc = leftTimestamp.indexOf(" ");
-    const rightSpaceLoc = rightTimestamp.indexOf(" "); */
