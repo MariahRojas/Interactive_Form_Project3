@@ -1,4 +1,4 @@
-const $name = $("#name").focus(); // cursor defaults to the Name section. 
+$("#name").focus(); // cursor defaults to the Name section. 
 const $other = $("#other-title"); // selects the other-title input and assigns to a variable. 
 
 $other.hide(); // hides the other input field.
@@ -56,10 +56,11 @@ the first available color.
     }
     });
 
+// Activity Section
 
     const $myDiv = $("<div></div>");        // this div element is created to display the total activity cost
     $(".activities").append($myDiv);        // the new div element is appended to the activities section. 
-    let $totalCost = 0;                     // the total cost will intially begin at 0.
+    let totalCost = 0;                     // the total cost will intially begin at 0.
 
     $(".activities").change((event) => {       // this event listener will listen for any changes in the activities section 
         const whenClicked = $(event.target);   // the target event property will return the element that triggers whenClicked variable.
@@ -71,35 +72,65 @@ the first available color.
             const $moneySignIndex = checkboxText.indexOf("$");                      // the index of "$" is chained to the label text
             const dollarPlus = parseInt(checkboxText.slice($moneySignIndex + 1));   // this makes the cost an actual number using parseInt
             //console.log(dollarPlus);
-            let whenChecked = false;
-
+          
             if (whenClicked.is(':checked')) {
-                $totalCost += dollarPlus; // $totalCost = $totalCost + dollarPlus;
-                whenChecked = true;
+                totalCost += dollarPlus; // totalCost = totalCost + dollarPlus;
             } else {
-                $totalCost -= dollarPlus; // if += then numbers will keep adding up even when unchecked, so -= will subtract when unchecked. 
+                totalCost -= dollarPlus; // if += then numbers will keep adding up even when unchecked, so -= will subtract when unchecked. 
             }
 
-            $myDiv.text("Total: $" + $totalCost); // the div will show the Total: $ and whatever $totalCost accumulates
+            $myDiv.text("Total: $" + totalCost); // the div will show the Total: $ and whatever totalCost accumulates
+        }     
+    });
+
+    $('[type="checkbox"]').change((e) => {                                                        // Listening for checkbox change
+        if (e.target.name === "js-libs" && e.target.checked) {
+          $(`input[name="node"]`).attr("disabled", true);                                         // Disabling 'node' if 'js-libs' checked
+        } else if (e.target.name === "js-libs" && !e.target.checked) {
+          $(`input[name="node"]`).removeAttr("disabled");
+        }
+      
+        if (e.target.name === "node" && e.target.checked) {
+          $(`input[name="js-libs"]`).attr("disabled", true);                                  // Disabling 'js-libs' if 'node' checked
+        } else if (e.target.name === "node" && !e.target.checked) {
+          $(`input[name="js-libs"]`).removeAttr("disabled");
+        }
+      
+        if (e.target.name === "js-frameworks" && e.target.checked) {
+          $(`input[name="express"]`).attr("disabled", true);                              // Disabling 'express' if 'js-frameworks' checked
+        } else if (e.target.name === "js-frameworks" && !e.target.checked) {
+          $(`input[name="express"]`).removeAttr("disabled");
+        }
+      
+        if (e.target.name === "express" && e.target.checked) {
+          $(`input[name="js-frameworks"]`).attr("disabled", true);                   // Disabling 'js-frameworks' if 'express' is checked
+        } else if (e.target.name === "express" && !e.target.checked) {
+          $(`input[name="js-frameworks"]`).removeAttr("disabled");
         }
 
-        if (whenClicked.attr("type") === "checkbox")
-        {
-            const checkboxText = whenClicked.parent().text();
-            const $emDashIndex = checkboxText.indexOf("—");
-            const $commaIndex =  checkboxText.indexOf(",");
-            const dayAndTimeText = checkboxText.slice($emDashIndex, $commaIndex); 
-            //console.log(dayAndTimeText);
-            let allCheckboxInputs = $('.activities input');
-            //console.log(allCheckboxInputs);
-            let oneCheckBoxInput = allCheckboxInputs.eq(1);
-
-               allCheckboxInputs.each(function(index, dayAndTimeText){
-                if ( dayAndTimeText == dayAndTimeText && dayAndTimeText != dayAndTimeText ){ 
-                    allCheckboxInputs.attr("checked", "disabled", true);
-                }else{
-                    allCheckboxInputs.removeAttr("checked", "disabled", false);             
-                }
-              });  
-        }         
     });
+
+
+// Payment Section
+
+$('#payment > option:nth-child(1)').hide();
+$("#payment").val($("#payment option:nth-child(2)").val());         //make credit-card default value
+$("fieldset:nth-child(4) > div:nth-child(5)").hide(); //hide paypal info
+$("fieldset:nth-child(4) > div:nth-child(6)").hide(); //hide bitcoin info
+
+$("#payment").on('click', function () {
+    if (this.value == "paypal") {
+        $("fieldset:nth-child(4) > div:nth-child(5)").show(); //paypal
+        $("#credit-card").hide();
+    } else { $("fieldset:nth-child(4) > div:nth-child(5)").hide(); }
+
+    if (this.value == "bitcoin") {
+        $("fieldset:nth-child(4) > div:nth-child(6)").show();
+        $("#credit-card").hide();
+    } else { $("fieldset:nth-child(4) > div:nth-child(6)").hide(); }     //hide bitcoin info
+
+    if (this.value == "credit card") {
+        $("#credit-card").show();
+    }
+});
+
