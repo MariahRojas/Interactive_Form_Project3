@@ -71,10 +71,11 @@ the first available color.
             const $moneySignIndex = checkboxText.indexOf("$");                      // the index of "$" is chained to the label text
             const dollarPlus = parseInt(checkboxText.slice($moneySignIndex + 1));   // this makes the cost an actual number using parseInt
             //console.log(dollarPlus);
-
+            let whenChecked = false;
 
             if (whenClicked.is(':checked')) {
                 $totalCost += dollarPlus; // $totalCost = $totalCost + dollarPlus;
+                whenChecked = true;
             } else {
                 $totalCost -= dollarPlus; // if += then numbers will keep adding up even when unchecked, so -= will subtract when unchecked. 
             }
