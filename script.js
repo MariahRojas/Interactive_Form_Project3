@@ -83,19 +83,19 @@ $('#design').change(() => { // this event listener listens for changes when one 
         }
 
         if (e.target.name === "node" && e.target.checked) {
-          $(`input[name="js-libs"]`).attr("disabled", true);                                  // Disabling 'js-libs' if 'node' checked
+          $(`input[name="js-libs"]`).attr("disabled", true);                                      // Disabling 'js-libs' if 'node' checked
         } else if (e.target.name === "node" && !e.target.checked) {
           $(`input[name="js-libs"]`).removeAttr("disabled");
         }
 
         if (e.target.name === "js-frameworks" && e.target.checked) {
-          $(`input[name="express"]`).attr("disabled", true);                              // Disabling 'express' if 'js-frameworks' checked
+          $(`input[name="express"]`).attr("disabled", true);                                       // Disabling 'express' if 'js-frameworks' checked
         } else if (e.target.name === "js-frameworks" && !e.target.checked) {
           $(`input[name="express"]`).removeAttr("disabled");
         }
 
         if (e.target.name === "express" && e.target.checked) {
-          $(`input[name="js-frameworks"]`).attr("disabled", true);                   // Disabling 'js-frameworks' if 'express' is checked
+          $(`input[name="js-frameworks"]`).attr("disabled", true);                                 // Disabling 'js-frameworks' if 'express' is checked
         } else if (e.target.name === "express" && !e.target.checked) {
           $(`input[name="js-frameworks"]`).removeAttr("disabled");
         }
@@ -157,14 +157,13 @@ const validName = (name) => {
     }
 }
 
-$('#name').on('input', () => {     
+ $('#name').on('input', () => {         // real time name validation
     if ($('#name').val() == '') {       // if name input is empty, call validation function
         validName($('#name').val())
     } else {
         $('#name-error').hide();        // if name input isn't empty, hide error message
     }
-});
-
+}); 
 
 // Email Validation
 const validEmail = (email) => {
@@ -249,7 +248,7 @@ const validCvv = (cvv) => {                         // cvv validation function
     }
 }
 
-const validFormFields = () => { // tests all form fields to see if all inputs are valid
+const validFormFields = () => {         // tests all form fields to see if all inputs are valid
     if ($('#payment').val() === 'credit card') {
         if (validName($('#name').val()) &&
             validEmail($('#mail').val()) &&
@@ -257,7 +256,7 @@ const validFormFields = () => { // tests all form fields to see if all inputs ar
             validCC($('#cc-num').val()) &&
             validZip($('#zip').val()) &&
             validCvv($('#cvv').val())) {
-            return true; // returns true if all form field inputs are valid
+            return true;                // returns true if all form field inputs are valid
         } else {
             validName($('#name').val());
             validEmail($('#mail').val());
@@ -265,18 +264,18 @@ const validFormFields = () => { // tests all form fields to see if all inputs ar
             validCC($('#cc-num').val());
             validZip($('#zip').val());
             validCvv($('#cvv').val());
-            return false; // returns false if any form field inputs are invalid
+            return false;               // returns false if any form field inputs are invalid
         }
     } else {
         if (validName($('#name').val()) &&
             validEmail($('#mail').val()) &&
             validActivities()) {
-            return true; // returns true if the credit card option is not selected and all other form field inputs are valid
+            return true;                // returns true if the credit card option is not selected and all other form field inputs are valid
         } else {
             validName($('#name').val());
             validEmail($('#mail').val());
             validActivities();
-            return false; // returns false if any form input fields are invalid
+            return false;               // returns false if any form input fields are invalid
         }
     }
 }
