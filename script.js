@@ -1,7 +1,9 @@
 // Basic Info
 
-$("#name").focus();                     // cursor defaults to the Name section. 
-const $other = $("#other-title");       // selects the other-title input and assigns to a variable. 
+
+
+$("#name").focus();                     // cursor defaults to the Name section.
+const $other = $("#other-title");       // selects the other-title input and assigns to a variable.
 
 $other.hide();                          // hides the other input field.
 
@@ -9,17 +11,19 @@ $('#title').on('change', function () {  // this event listener selects the title
     if (this.value === 'other') {       // if this value equals the 'other' option.
         $other.show();                  // then the Your Job Role will show.
     } else {
-        $other.hide();                  // when other isnt clicked it will hide. 
+        $other.hide();                  // when other isnt clicked it will hide.
     }
 });
-    
-// T-Shirt Info 
 
-$("#design option:nth-child(1)").hide(); // This hides the "Select Theme" `option` element in the "Design Menu"
 
-$("#color option:nth-child(1)").before('<option selected value="none">Please select a T-shirt theme</option>'); // this selects the first child from the "Design Menu" and places my new input before it. 
 
-$('#color option[value != "none"]').hide(); // hides the colors in the “Color” drop down menu. If the value for the option doesnt equal "none" then it will be hidden. 
+// T-Shirt Info
+
+$("#design > option:nth-child(1)").hide(); // This hides the "Select Theme" `option` element in the "Design Menu"
+
+$("#color > option:nth-child(1)").before('<option selected value="none">Please select a T-shirt theme</option>'); // this selects the first child from the "Design Menu" and places my new input before it.
+
+$('#color > option[value != "none"]').hide(); // hides the colors in the “Color” drop down menu. If the value for the option doesnt equal "none" then it will be hidden.
 
 
 
@@ -37,7 +41,7 @@ $('#design').change(() => { // this event listener listens for changes when one 
         $('#color option:contains("JS Puns")').hide();          // hides "JS Puns" options
         $('#color option:contains("JS Puns")').first().attr('selected', false); // Color will only show "JS shirt only" as default
         $('#color option:contains("JS shirt only")').show();    // shows all "JS shirt only" options
-        $('#color option:contains("JS shirt only")').first().attr('selected', 'selected'); //when "JS shirt only" is selected after "JS Puns" s selected then this will change options back to "JS shirt only" 
+        $('#color option:contains("JS shirt only")').first().attr('selected', 'selected'); //when "JS shirt only" is selected after "JS Puns" s selected then this will change options back to "JS shirt only"
     } else {
         $("#color option:first").before('<option selected="selected" value="none">Please select a T-shirt theme</option>');
     }
@@ -46,28 +50,28 @@ $('#design').change(() => { // this event listener listens for changes when one 
 // Register for Activities
 
     const $myDiv = $("<div></div>");        // this div element is created to display the total activity cost
-    $(".activities").append($myDiv);        // the new div element is appended to the activities section. 
+    $(".activities").append($myDiv);        // the new div element is appended to the activities section.
     let totalCost = 0;                     // the total cost will intially begin at 0.
 
-    $(".activities").change((event) => {       // this event listener will listen for any changes in the activities section 
+    $(".activities").change((event) => {       // this event listener will listen for any changes in the activities section
         const whenClicked = $(event.target);   // the target event property will return the element that triggers whenClicked variable.
 
- 
+
         if (whenClicked.attr("type") === "checkbox") // whenClicked with the attribute "type" is equal to the "checkbox"
         {
-            const checkboxText = whenClicked.parent().text();                       // parent is the label and the text is whats shown next to the checkbox 
+            const checkboxText = whenClicked.parent().text();                       // parent is the label and the text is whats shown next to the checkbox
             const $moneySignIndex = checkboxText.indexOf("$");                      // the index of "$" is chained to the label text
             const dollarPlus = parseInt(checkboxText.slice($moneySignIndex + 1));   // this makes the cost an actual number using parseInt
             //console.log(dollarPlus);
-          
+
             if (whenClicked.is(':checked')) {
                 totalCost += dollarPlus; // totalCost = totalCost + dollarPlus;
             } else {
-                totalCost -= dollarPlus; // if += then numbers will keep adding up even when unchecked, so -= will subtract when unchecked. 
+                totalCost -= dollarPlus; // if += then numbers will keep adding up even when unchecked, so -= will subtract when unchecked.
             }
 
             $myDiv.text("Total: $" + totalCost); // the div will show the Total: $ and whatever totalCost accumulates
-        }     
+        }
     });
 
     $('[type="checkbox"]').change((e) => {                                                        // Listening for checkbox change
@@ -76,19 +80,19 @@ $('#design').change(() => { // this event listener listens for changes when one 
         } else if (e.target.name === "js-libs" && !e.target.checked) {
           $(`input[name="node"]`).removeAttr("disabled");
         }
-      
+
         if (e.target.name === "node" && e.target.checked) {
           $(`input[name="js-libs"]`).attr("disabled", true);                                  // Disabling 'js-libs' if 'node' checked
         } else if (e.target.name === "node" && !e.target.checked) {
           $(`input[name="js-libs"]`).removeAttr("disabled");
         }
-      
+
         if (e.target.name === "js-frameworks" && e.target.checked) {
           $(`input[name="express"]`).attr("disabled", true);                              // Disabling 'express' if 'js-frameworks' checked
         } else if (e.target.name === "js-frameworks" && !e.target.checked) {
           $(`input[name="express"]`).removeAttr("disabled");
         }
-      
+
         if (e.target.name === "express" && e.target.checked) {
           $(`input[name="js-frameworks"]`).attr("disabled", true);                   // Disabling 'js-frameworks' if 'express' is checked
         } else if (e.target.name === "express" && !e.target.checked) {
@@ -100,25 +104,45 @@ $('#design').change(() => { // this event listener listens for changes when one 
 
 // Payment Info
 
-$('#payment > option:nth-child(1)').hide();
+//$("#credit-card").show();
+// $("body > div > form > fieldset:nth-child(4) > div:nth-child(10) > p").hide();
+// $("body > div > form > fieldset:nth-child(4) > div:nth-child(9) > p").hide();
+
 $("#payment").val($("#payment option:nth-child(2)").val());         //make credit-card default value
-$("fieldset:nth-child(4) > div:nth-child(5)").hide();               //hide paypal info
-$("fieldset:nth-child(4) > div:nth-child(6)").hide();               //hide bitcoin info
+$("#credit-card").show();
+$("#payment > option:nth-child(1)").hide();
+const $paypal = $('#payment').next().next();
+const $bitcoin = $('#payment').next().next().next();
 
-$("#payment").on('click', function () {
+$paypal.hide();
+$bitcoin.hide();
+// $("body > div > form > fieldset:nth-child(6) > div:nth-child(9) > p").hide();               //hide paypal info
+// $("body > div > form > fieldset:nth-child(6) > div:nth-child(10) > p").hide();//hide bitcoin info
+
+$("#payment").on('change', function () {
     if (this.value == "paypal") {
-        $("fieldset:nth-child(4) > div:nth-child(5)").show(); //paypal
+        // $("body > div > form > fieldset:nth-child(4) > div:nth-child(5)").show(); //paypal
         $("#credit-card").hide();
-    } else { $("fieldset:nth-child(4) > div:nth-child(5)").hide(); }
-
-    if (this.value == "bitcoin") {
-        $("fieldset:nth-child(4) > div:nth-child(6)").show();
-        $("#credit-card").hide();
-    } else { $("fieldset:nth-child(4) > div:nth-child(6)").hide(); }     //hide bitcoin info
-
-    if (this.value == "credit card") {
-        $("#credit-card").show();
+        $bitcoin.hide(); //bitcoin
+        $paypal.show();  //paypal
     }
+    //else {
+    //     $("body > div > form > fieldset:nth-child(4) > div:nth-child(5)").hide();
+    // }
+
+    else if (this.value == "bitcoin") {
+        $bitcoin.show();
+        $paypal.hide();
+        $("#credit-card").hide();
+    }
+    //else { $("body > div > form > fieldset:nth-child(4) > div:nth-child(10) > p").hide(); }     //hide bitcoin info
+
+    else {//this.value == "credit card"
+        $("#credit-card").show();
+        $bitcoin.hide();
+        $paypal.hide();
+    }
+
 });
 
 // Validation
@@ -134,7 +158,7 @@ $('.error').hide();
 
 
 // Name validation
-const validName = (name) => {           
+const validName = (name) => {
     const valid = /^\S/.test(name);     // tests for valid name, ignores whitespace
     if (valid) {
         $("#name-error").hide();        // hides error message if input name is valid
@@ -155,7 +179,7 @@ $('#name').on('input', (event) => {     // real-time name validation function
 
 
 // Email Validation
-const validEmail = (email) => {                             
+const validEmail = (email) => {
     const valid = /^[^@]+@[^@.]+\.[a-z]+$/i.test(email);    // tests for valid email
     if (valid) {
         $('#email-error').hide();                           // hides error message if email input is valid
@@ -168,7 +192,7 @@ const validEmail = (email) => {
 
 
 // Activity Validation
-const validActivities = () => {                         
+const validActivities = () => {
     if ($('.activities input:checked').length > 0) {
         $('#activity-error').hide();                    // hides error message if any activities are checked
         return true;
@@ -271,10 +295,12 @@ const validFormFields = () => { //tests all form fields to see if all inputs are
 
 // Register
 $("form").submit((e) => {
-    e.preventDefault();
-    
+
+
     if(validFormFields())
     {
         location.reload();
+    } else {
+        e.preventDefault();
     }
 });
