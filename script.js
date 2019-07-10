@@ -157,7 +157,7 @@ const validName = (name) => {
     }
 }
 
-$('#name').on('input', (event) => {     // real-time name validation function
+$('#name').on('input', () => {     
     if ($('#name').val() == '') {       // if name input is empty, call validation function
         validName($('#name').val())
     } else {
