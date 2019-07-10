@@ -1,7 +1,5 @@
 // Basic Info
 
-
-
 $("#name").focus();                     // cursor defaults to the Name section.
 const $other = $("#other-title");       // selects the other-title input and assigns to a variable.
 
@@ -46,6 +44,9 @@ $('#design').change(() => { // this event listener listens for changes when one 
         $("#color option:first").before('<option selected="selected" value="none">Please select a T-shirt theme</option>');
     }
     });
+
+
+
 
 // Register for Activities
 
@@ -98,15 +99,11 @@ $('#design').change(() => { // this event listener listens for changes when one 
         } else if (e.target.name === "express" && !e.target.checked) {
           $(`input[name="js-frameworks"]`).removeAttr("disabled");
         }
+    }); ;
 
-    });
 
 
 // Payment Info
-
-//$("#credit-card").show();
-// $("body > div > form > fieldset:nth-child(4) > div:nth-child(10) > p").hide();
-// $("body > div > form > fieldset:nth-child(4) > div:nth-child(9) > p").hide();
 
 $("#payment").val($("#payment option:nth-child(2)").val());         //make credit-card default value
 $("#credit-card").show();
@@ -116,34 +113,25 @@ const $bitcoin = $('#payment').next().next().next();
 
 $paypal.hide();
 $bitcoin.hide();
-// $("body > div > form > fieldset:nth-child(6) > div:nth-child(9) > p").hide();               //hide paypal info
-// $("body > div > form > fieldset:nth-child(6) > div:nth-child(10) > p").hide();//hide bitcoin info
 
 $("#payment").on('change', function () {
     if (this.value == "paypal") {
-        // $("body > div > form > fieldset:nth-child(4) > div:nth-child(5)").show(); //paypal
         $("#credit-card").hide();
         $bitcoin.hide(); //bitcoin
         $paypal.show();  //paypal
-    }
-    //else {
-    //     $("body > div > form > fieldset:nth-child(4) > div:nth-child(5)").hide();
-    // }
-
-    else if (this.value == "bitcoin") {
+    } else if (this.value == "bitcoin") {
         $bitcoin.show();
         $paypal.hide();
         $("#credit-card").hide();
-    }
-    //else { $("body > div > form > fieldset:nth-child(4) > div:nth-child(10) > p").hide(); }     //hide bitcoin info
-
-    else {//this.value == "credit card"
+    } else {
         $("#credit-card").show();
         $bitcoin.hide();
         $paypal.hide();
     }
 
 });
+
+
 
 // Validation
 
@@ -204,7 +192,7 @@ const validActivities = () => {
 
 
 //Payment Validation
-$('#payment').on('change', function () { //hides credit card errors if other payment option is selected
+$('#payment').on('change', function () {        // hides credit card errors if other payment option is selected
     if ($('#payment').val() === 'paypal' || $('#payment').val() === 'bitcoin') {
         $('#cc-empty-error').hide();
         $('#cc-number-error').hide();
@@ -213,55 +201,55 @@ $('#payment').on('change', function () { //hides credit card errors if other pay
     }
 });
 
-const validCC = (cc) => { //credit card validation function
-    if ($('#payment').val() === 'credit card') { //checks if credit card input is between 13 and 16 digits
+const validCC = (cc) => {                        // credit card validation function
+    if ($('#payment').val() === 'credit card') { // checks if credit card input is between 13 and 16 digits
         let valid = /^\d{13,16}$/.test(cc);
 
         if (valid) {
-            $('#cc-empty-error').hide(); //if number input is valid, hide error messages
+            $('#cc-empty-error').hide();        // if number input is valid, hide error messages
             $('#cc-number-error').hide();
             return true;
         } else if (cc !== '') {
             $('#cc-empty-error').hide();
-            $('#cc-number-error').show(); //if card number isn't between 13-16 digits, show error message
+            $('#cc-number-error').show();       // if card number isn't between 13-16 digits, show error message
             return false;
         } else {
-            $('#cc-empty-error').show(); //if input field is empty, show error message
+            $('#cc-empty-error').show();        // if input field is empty, show error message
             $('#cc-number-error').hide();
             return false;
         }
     }
 }
 
-const validZip = (zip) => { //zip code validation function
-    if ($('#payment').val() === 'credit card') { //if credit card is selected, test if the zip code input is 5 digits
+const validZip = (zip) => {                         // zip code validation function
+    if ($('#payment').val() === 'credit card') {    // if credit card is selected, test if the zip code input is 5 digits
         let valid = /^\d{5}$/.test(zip);
 
         if (valid) {
-            $('#cc-zip-error').hide(); //if zip code input is valid, hide error message
+            $('#cc-zip-error').hide();              // if zip code input is valid, hide error message
             return true;
         } else {
-            $('#cc-zip-error').show(); //if zip code input is invalid, show error message
+            $('#cc-zip-error').show();              // if zip code input is invalid, show error message
             return false;
         }
     }
 }
 
-const validCvv = (cvv) => { //cvv validation function
-    if ($('#payment').val() === 'credit card') { //if credit card is selected, test if the cvv input is 3 digits
+const validCvv = (cvv) => {                         // cvv validation function
+    if ($('#payment').val() === 'credit card') {    // if credit card is selected, test if the cvv input is 3 digits
         let valid = /^\d{3}$/.test(cvv);
 
         if (valid) {
-            $('#cc-cvv-error').hide(); //if cvv number is valid, hide error message
+            $('#cc-cvv-error').hide(); // if cvv number is valid, hide error message
             return true;
         } else {
-            $('#cc-cvv-error').show(); //if cvv number is invalid, show error message
+            $('#cc-cvv-error').show(); // if cvv number is invalid, show error message
             return false;
         }
     }
 }
 
-const validFormFields = () => { //tests all form fields to see if all inputs are valid
+const validFormFields = () => { // tests all form fields to see if all inputs are valid
     if ($('#payment').val() === 'credit card') {
         if (validName($('#name').val()) &&
             validEmail($('#mail').val()) &&
@@ -269,7 +257,7 @@ const validFormFields = () => { //tests all form fields to see if all inputs are
             validCC($('#cc-num').val()) &&
             validZip($('#zip').val()) &&
             validCvv($('#cvv').val())) {
-            return true; //returns true if all form field inputs are valid
+            return true; // returns true if all form field inputs are valid
         } else {
             validName($('#name').val());
             validEmail($('#mail').val());
@@ -277,30 +265,27 @@ const validFormFields = () => { //tests all form fields to see if all inputs are
             validCC($('#cc-num').val());
             validZip($('#zip').val());
             validCvv($('#cvv').val());
-            return false; //returns false if any form field inputs are invalid
+            return false; // returns false if any form field inputs are invalid
         }
     } else {
         if (validName($('#name').val()) &&
             validEmail($('#mail').val()) &&
             validActivities()) {
-            return true; //returns true if the credit card option is not selected and all other form field inputs are valid
+            return true; // returns true if the credit card option is not selected and all other form field inputs are valid
         } else {
             validName($('#name').val());
             validEmail($('#mail').val());
             validActivities();
-            return false; //returns false if any form input fields are invalid
+            return false; // returns false if any form input fields are invalid
         }
     }
 }
 
 // Register
 $("form").submit((e) => {
-
-
+    e.preventDefault();
     if(validFormFields())
     {
         location.reload();
-    } else {
-        e.preventDefault();
     }
 });
